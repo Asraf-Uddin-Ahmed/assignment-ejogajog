@@ -13,14 +13,14 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class TripRequestDto extends BaseRequestDto {
 	@NotNull
-	private double fromLatitude;
+	private Double fromLatitude;
 
 	@NotNull
-	private double fromLongitude;
+	private Double fromLongitude;
 
 	@NotNull
-	private double toLatitude;
+	private Double toLatitude;
 
 	@NotNull
-	private double toLongitude;
+	private Double toLongitude;
 }
