@@ -7,7 +7,7 @@
 	<groupId>com.ejogajog</groupId>
 	<artifactId>assignment-ejogajog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>assignment-ejogajog</name>
 	<description>Assignment for Ejogajog</description>
