@@ -58,6 +58,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		StringBuilder builder = new StringBuilder();
 		builder.append(ex.getContentType());
 		builder.append(" media type is not supported. Supported media types are ");
+		ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
 		return buildResponseEntity(this.apiErrorMapper.initResponseDto().setStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
 				.setDebugMessage(ex).setMessage(builder.substring(0, builder.length() - 2)).build());
 	}
@@ -65,7 +66,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().initDefaultValidationError().build();
+		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().initDefaultValidationError()
+				.addValidationFieldErrors(ex.getBindingResult().getFieldErrors())
+				.addValidationObjectErrors(ex.getBindingResult().getGlobalErrors()).build();
 		return buildResponseEntity(apiError);
 	}
 
@@ -94,7 +97,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(javax.validation.ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
-		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().initDefaultValidationError().build();
+		ApiErrorResponseDto apiError = this.apiErrorMapper.initResponseDto().initDefaultValidationError()
+				.addValidationErrors(ex.getConstraintViolations()).build();
 		return buildResponseEntity(apiError);
 	}
 
