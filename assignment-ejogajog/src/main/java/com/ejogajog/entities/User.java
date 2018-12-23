@@ -1,5 +1,6 @@
 package com.ejogajog.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class User extends BaseEntity {
 	@Id
 	private long id;
 
+	@Column(unique = true)
 	@NotNull
 	private String email;
 	
